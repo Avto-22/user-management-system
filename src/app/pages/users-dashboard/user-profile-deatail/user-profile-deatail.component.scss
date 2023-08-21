@@ -184,3 +184,11 @@
 .opacity_none {
   opacity: 0;
 }
+
+.invalid_color{
+  color: red !important;
+}
+
+.invalid_placeholder::placeholder{
+  color: red !important;
+}

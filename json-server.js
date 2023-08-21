@@ -28,10 +28,13 @@ server.get("/users", (req, res) => {
   res.status(200).json({ users, page, totalRecords });
 });
 
-server.get("/check-email/:email", (req, res) => {
+server.get("/check-email/:email/:uid", (req, res) => {
   const email = req.params.email;
+  const uid = +req.params.uid;
   const users = router.db.get("users").value();
-  const isEmailTaken = users.some((user) => user.email === email);
+  const isEmailTaken = users
+    .filter((user) => user.id !== uid)
+    .some((user) => user.email === email);
   res.json(isEmailTaken);
 });
 

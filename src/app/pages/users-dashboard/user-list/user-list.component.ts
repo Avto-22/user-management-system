@@ -21,6 +21,8 @@ export class UserListComponent implements OnInit {
 
   isLoading: boolean = false;
 
+  activeUserUid: number | undefined = undefined;
+
   users!: User[];
 
   currentPage: number = 1;
@@ -37,22 +39,20 @@ export class UserListComponent implements OnInit {
   perPage = this.perPageData[0];
 
   cols = [
-    { field: 'workplace', header: 'Workplace' },
     { field: 'name', header: 'Name' },
-    { field: 'age', header: 'Age' },
     { field: 'email', header: 'Email' },
+    { field: 'workplace', header: 'Workplace' },
+    { field: 'age', header: 'Age' },
     { field: 'phone', header: 'Phone' },
   ];
 
   constructor(
     private usersHttp: UsersHttp,
     private cdr: ChangeDetectorRef,
+    private router: Router,
   ) {}
 
-  ngOnInit() {
-    this.usersHttp.getUsers().subscribe((res) => console.log(res));
-    // this.usersHttp.checkEmailTaken('avtandilkinchikaidze@gmail.com').subscribe(res => console.log(res))
-  }
+  ngOnInit() {}
 
   loadUsersLazy(event: any = undefined) {
     this.currentPage = event?.first / event?.rows + 1 || this.currentPage || 1;
@@ -77,5 +77,12 @@ export class UserListComponent implements OnInit {
     this.loadUsersLazy();
   }
 
-  delete() {}
+  delete(id: number) {
+    this.usersHttp.deleteUser(id).subscribe((res) => console.log(res));
+  }
+
+  navigateToLogs(id: number) {
+    this.activeUserUid = id;
+    this.router.navigate([{ outlets: { logsHistory: ['logs', id] } }]);
+  }
 }

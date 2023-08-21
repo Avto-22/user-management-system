@@ -1,10 +1,10 @@
 <div class="_x_relative _x_w-full _x_mt-14 _x_flex _x_justify-center">
-  <div class="card _x_w-4/5 _x_h-96">
+  <div class="card _x_w-[70%] _x_h-96">
     <p-table
       #table
       [columns]="cols"
       [value]="users"
-      [tableStyle]="{ 'min-width': '50rem', height: 'auto' }"
+      [tableStyle]="{ height: 'auto' }"
       [responsive]="true"
       [paginator]="true"
       [lazy]="true"
@@ -33,6 +33,7 @@
       </ng-template>
       <ng-template pTemplate="header" let-columns>
         <tr>
+          <th>Avatar</th>
           <th *ngFor="let col of columns">
             {{ col.header }}
           </th>
@@ -40,7 +41,17 @@
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-rowData let-columns="columns">
-        <tr [isUserActive]="false" class="table_row">
+        <tr
+          (click)="navigateToLogs(rowData['id'])"
+          [isUserActive]="rowData['id'] === activeUserUid"
+          class="table_row"
+        >
+          <td>
+            <app-user-profile
+              [userProfile]="{ id: rowData['id'], avatar: rowData['avatar'] }"
+              (onZoom)="navigateToLogs($event)"
+            ></app-user-profile>
+          </td>
           <td *ngFor="let col of columns">
             <p *ngIf="!isLoading">{{ rowData[col.field] }}</p>
             <p-skeleton *ngIf="isLoading"></p-skeleton>
@@ -50,6 +61,7 @@
             <p-skeleton *ngIf="isLoading"></p-skeleton>
             <div *ngIf="!isLoading" class="_x_flex _x_gap-4">
               <p-button
+                (click)="$event.stopPropagation()"
                 [routerLink]="'/users/edit-user/' + rowData['id']"
                 [style]="{ width: '40px', height: '40px' }"
                 icon="pi pi-pencil"
@@ -59,7 +71,8 @@
                 [style]="{ width: '40px', height: '40px' }"
                 icon="pi pi-trash"
                 styleClass="p-button-danger"
-                (onClick)="delete()"
+                (click)="$event.stopPropagation()"
+                (onClick)="delete(rowData['id'])"
               ></p-button>
             </div>
           </td>
@@ -67,7 +80,7 @@
       </ng-template>
       <ng-template pTemplate="footer" let-columns>
         <tr>
-          <td colspan="6" style="text-align: center">
+          <td colspan="7" style="text-align: center">
             <p-dropdown
               [options]="perPageData"
               (onChange)="changePerPage()"

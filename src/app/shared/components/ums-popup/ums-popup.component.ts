@@ -5,6 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { ScrollActions } from 'src/app/utility';
 
 @Component({
   selector: 'ums-popup',
@@ -19,22 +20,14 @@ export class UmsPopupComponent {
   constructor() {}
 
   ngOnInit(): void {
-    this.disableScroll();
+    ScrollActions.disableScroll();
   }
 
   ngOnDestroy(): void {
-    this.undisableScroll();
+    ScrollActions.undisableScroll();
   }
 
   closePopup() {
     this.close.emit();
-  }
-
-  disableScroll() {
-    document.body.style.overflow = 'hidden';
-  }
-
-  undisableScroll() {
-    document.body.style.overflow = 'auto';
   }
 }

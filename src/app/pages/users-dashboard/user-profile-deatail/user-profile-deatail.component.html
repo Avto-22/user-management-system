@@ -23,6 +23,7 @@
         type="text"
         formControlName="name"
         placeholder="name"
+        [ngClass]="{'invalid_placeholder': this.documentForm.get('name')?.invalid}"
       />
     </h2>
     <div class="title">
@@ -31,6 +32,7 @@
         type="text"
         formControlName="workplace"
         placeholder="workplace"
+        [ngClass]="{'invalid_placeholder': this.documentForm.get('workplace')?.invalid}"
       />
     </div>
     <div class="actions">
@@ -42,8 +44,14 @@
               type="text"
               formControlName="email"
               placeholder="email"
+              tooltipPosition="right"
+              [pTooltip]="
+              this.documentForm.get('email')?.errors?.['isEmailAlreadyInUse']
+                  ? 'Email is already in use'
+                  : ''
+              "
             />
-            <small>E-Mail</small></a
+            <small [ngClass]="{'invalid_color': this.documentForm.get('email')?.invalid}">E-Mail</small></a
           >
         </h2>
       </div>
@@ -56,7 +64,7 @@
               formControlName="age"
               placeholder="age"
             />
-            <small>Years Old</small></a
+            <small [ngClass]="{'invalid_color': this.documentForm.get('age')?.invalid}">Years Old</small></a
           >
         </h2>
         <h2>
@@ -66,7 +74,7 @@
               type="text"
               formControlName="salary"
               placeholder="salary"
-            /><small>Salary</small></a
+            /><small [ngClass]="{'invalid_color': this.documentForm.get('salary')?.invalid}">Salary</small></a
           >
         </h2>
       </div>
@@ -81,7 +89,7 @@
               mask="999-99-99-99"
               placeholder="999-99-99-99"
             ></p-inputMask
-            ><small>Phone Number</small></a
+            ><small [ngClass]="{'invalid_color': this.documentForm.get('phone')?.invalid}">Phone Number</small></a
           >
         </h2>
       </div>
@@ -90,9 +98,9 @@
           *ngIf="action === 'edit'"
           (click)="onUpdateUser()"
           [ngClass]="{
-            disable_submit_btn: !(
-              editUser | changeFormDetector: documentForm.value
-            )
+            disable_submit_btn:
+              !(editUser | changeFormDetector: documentForm.value) ||
+              documentForm.invalid
           }"
         >
           save changes

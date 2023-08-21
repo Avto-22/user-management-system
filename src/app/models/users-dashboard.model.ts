@@ -7,10 +7,16 @@ export interface User {
   phone: number;
   workplace: string;
   avatar: string;
+  isActive?: boolean;
 }
 
 export interface UsersResponse {
   users: User[];
   page: number;
   totalRecords: number;
+}
+
+export interface UserProfile {
+  avatar: string;
+  id: number;
 }

@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 import { User } from 'src/app/models/users-dashboard.model';
 import { UsersHttp } from 'src/app/services/http-services/users.service';
 import { CustomValidators } from 'src/app/utility';
@@ -29,6 +30,7 @@ export class UserProfileDeatailComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private usersHttp: UsersHttp,
     private route: ActivatedRoute,
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -45,13 +47,12 @@ export class UserProfileDeatailComponent implements OnInit {
       email: new FormControl(
         null,
         [Validators.required],
-        [CustomValidators.emailChecker(this.usersHttp)],
+        [CustomValidators.emailChecker(this.usersHttp, this.editUser?.id)],
       ),
       phone: new FormControl(null, [Validators.required]),
       workplace: new FormControl(null, [Validators.required]),
       avatar: new FormControl(null, [Validators.required]),
     });
-    console.log(this.documentForm.value);
     if (this.action === 'edit') {
       this.fillEditForm();
     }
@@ -85,11 +86,18 @@ export class UserProfileDeatailComponent implements OnInit {
     this.documentForm.setValue({ ...this.editUser });
   }
 
-  onUpdateUser() {}
+  onUpdateUser() {
+    alert('hi')
+    this.usersHttp.updateUser(this.documentForm.value, (this.editUser as User).id).subscribe(res => console.log(res))
+  }
 
   onAddUser() {
     this.usersHttp
       .createUser(this.documentForm.value)
       .subscribe((res) => console.log(res));
+  }
+
+  showErrorMessage(){
+    this.messageService.add({ severity: 'error', summary: 'Validation Error', detail: 'Email already in use' });
   }
 }

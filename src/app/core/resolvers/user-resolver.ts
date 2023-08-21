@@ -8,7 +8,9 @@ import { Observable } from 'rxjs';
 import { User } from 'src/app/models/users-dashboard.model';
 import { UsersHttp } from 'src/app/services/http-services/users.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class UserResolver implements Resolve<Observable<User>> {
   constructor(private usersHttp: UsersHttp) {}
 

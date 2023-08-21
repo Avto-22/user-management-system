@@ -1,0 +1,24 @@
+<div *ngIf="user$ | async as user">
+  <div
+    *ngIf="user.hasOwnProperty('id'); else removed"
+    class="_x_fixed _x_top-0 _x_pr-1 _x_left-0 _x_gap-2 _x_bottom-0 _x_w-[270px] _x_bg-white _x_shadow-lg _x_shadow-cyan-500/50 _x_flex _x_flex-col _x_pl-4 _x_pt-4"
+  >
+    <div
+      class="_x_flex _x_w-full _x_justify-center _x_flex-col _x_gap-2 _x_items-center"
+    >
+      <img
+        style="text-align: center"
+        class="_x_w-[60px] _x_h-[60px] _x_rounded-full _x_transition"
+        [src]="user.avatar"
+        alt="avatar"
+      />
+    </div>
+    <h2>name: {{ user.name }}</h2>
+    <p>user create date: {{ user.workplace }}</p>
+    <p>avatar update date: {{ user.age }}</p>
+    <p>email update date: {{ user.phone }}</p>
+  </div>
+  <ng-template #removed>
+    <p>this user is already removed</p>
+  </ng-template>
+</div>

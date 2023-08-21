@@ -14,8 +14,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputMaskModule } from 'primeng/inputmask';
 import { FileUploadModule } from 'primeng/fileupload';
-import { UserResolver } from 'src/app/core/resolvers/user-resolver';
 import { DropdownModule } from 'primeng/dropdown';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -39,7 +39,7 @@ import { DropdownModule } from 'primeng/dropdown';
     FormsModule
   ],
   providers: [
-    UserResolver
+    MessageService
   ]
 })
 export class UsersDashboardModule {}

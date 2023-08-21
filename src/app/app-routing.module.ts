@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { UserResolver } from './core/resolvers/user-resolver';
 
 const routes: Routes = [
   {
@@ -13,6 +14,15 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/users-dashboard/users-dashboard.module').then(
         (m) => m.UsersDashboardModule,
+      ),
+  },
+
+  {
+    path: 'logs/:uid',
+    outlet: 'logsHistory',
+    loadChildren: () =>
+      import('./pages/user-logs-history/user-logs-history.module').then(
+        (m) => m.UserLogsHistoryModule,
       ),
   },
 ];
