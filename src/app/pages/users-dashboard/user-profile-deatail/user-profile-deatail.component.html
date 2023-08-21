@@ -1,0 +1,112 @@
+<ums-popup (close)="closePopup()">
+  <form [formGroup]="documentForm" class="card">
+    <div class="banner">
+      <img [src]="documentForm.controls['avatar'].value || editUser?.avatar" />
+      <label
+        for="avatar_file"
+        class="avatar_upload unset"
+        [ngClass]="{ opacity_none: action === 'edit' || isAvatarChoosed }"
+      >
+        upload
+      </label>
+      <input
+        (change)="onAvatarUpload($event)"
+        type="file"
+        id="avatar_file"
+        class="_x_hidden"
+      />
+    </div>
+    <div class="menu"></div>
+    <h2 class="name">
+      <input
+        class="unset _x_text-center"
+        type="text"
+        formControlName="name"
+        placeholder="name"
+      />
+    </h2>
+    <div class="title">
+      <input
+        class="unset _x_text-center"
+        type="text"
+        formControlName="workplace"
+        placeholder="workplace"
+      />
+    </div>
+    <div class="actions">
+      <div class="follow-info">
+        <h2 class="width_full">
+          <a>
+            <input
+              class="unset _x_text-center"
+              type="text"
+              formControlName="email"
+              placeholder="email"
+            />
+            <small>E-Mail</small></a
+          >
+        </h2>
+      </div>
+      <div class="follow-info">
+        <h2>
+          <a>
+            <input
+              class="unset _x_text-center"
+              type="text"
+              formControlName="age"
+              placeholder="age"
+            />
+            <small>Years Old</small></a
+          >
+        </h2>
+        <h2>
+          <a
+            ><input
+              class="unset _x_text-center"
+              type="text"
+              formControlName="salary"
+              placeholder="salary"
+            /><small>Salary</small></a
+          >
+        </h2>
+      </div>
+      <div class="follow-info">
+        <h2 class="width_full">
+          <a>
+            <p-inputMask
+              [style]="{ all: 'unset' }"
+              class="_x_text-center"
+              type="text"
+              formControlName="phone"
+              mask="999-99-99-99"
+              placeholder="999-99-99-99"
+            ></p-inputMask
+            ><small>Phone Number</small></a
+          >
+        </h2>
+      </div>
+      <div class="follow-btn">
+        <button
+          *ngIf="action === 'edit'"
+          (click)="onUpdateUser()"
+          [ngClass]="{
+            disable_submit_btn: !(
+              editUser | changeFormDetector: documentForm.value
+            )
+          }"
+        >
+          save changes
+        </button>
+        <button
+          *ngIf="action === 'add'"
+          (click)="onAddUser()"
+          [ngClass]="{
+            disable_submit_btn: documentForm.invalid
+          }"
+        >
+          add user
+        </button>
+      </div>
+    </div>
+  </form>
+</ums-popup>

@@ -1,0 +1,9 @@
+<div
+  class="bg _x_fixed _x_top-0 _x_bottom-0 _x_left-0 _x_right-0 _x_flex _x_justify-center _x_items-{{position}} _x_z-10"
+  [ngClass]="[position === 'start' ? '_x_pt-20' : '']"
+  (click)="closePopup()"
+>
+  <div (click)="$event.stopPropagation()">
+    <ng-content></ng-content>
+  </div>
+</div>

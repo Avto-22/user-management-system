@@ -1,0 +1,84 @@
+<div class="_x_relative _x_w-full _x_mt-14 _x_flex _x_justify-center">
+  <div class="card _x_w-4/5 _x_h-96">
+    <p-table
+      #table
+      [columns]="cols"
+      [value]="users"
+      [tableStyle]="{ 'min-width': '50rem', height: 'auto' }"
+      [responsive]="true"
+      [paginator]="true"
+      [lazy]="true"
+      [rows]="perPage.value"
+      [totalRecords]="totalRecords"
+      (onLazyLoad)="loadUsersLazy($event)"
+    >
+      <ng-template pTemplate="caption">
+        <div class="_x_flex _x_justify-between _x_items-center">
+          <p-button
+            routerLink="/users/add-user/"
+            label="add user"
+            class="_x_text-right"
+            icon="pi pi-plus"
+          ></p-button>
+          UMS - User Managment System
+          <input
+            type="text"
+            pInputText
+            size="50"
+            placeholder="Search by Name or Workplace"
+            (input)="filterGlobal($event)"
+            style="width: 300px"
+          />
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns">
+            {{ col.header }}
+          </th>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr [isUserActive]="false" class="table_row">
+          <td *ngFor="let col of columns">
+            <p *ngIf="!isLoading">{{ rowData[col.field] }}</p>
+            <p-skeleton *ngIf="isLoading"></p-skeleton>
+          </td>
+
+          <td class="_x_w-12">
+            <p-skeleton *ngIf="isLoading"></p-skeleton>
+            <div *ngIf="!isLoading" class="_x_flex _x_gap-4">
+              <p-button
+                [routerLink]="'/users/edit-user/' + rowData['id']"
+                [style]="{ width: '40px', height: '40px' }"
+                icon="pi pi-pencil"
+                styleClass="p-button-warning"
+              ></p-button>
+              <p-button
+                [style]="{ width: '40px', height: '40px' }"
+                icon="pi pi-trash"
+                styleClass="p-button-danger"
+                (onClick)="delete()"
+              ></p-button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="footer" let-columns>
+        <tr>
+          <td colspan="6" style="text-align: center">
+            <p-dropdown
+              [options]="perPageData"
+              (onChange)="changePerPage()"
+              [(ngModel)]="perPage"
+              placeholder="Per page {{ this.perPage }}"
+              optionLabel="name"
+            ></p-dropdown>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+<router-outlet></router-outlet>
