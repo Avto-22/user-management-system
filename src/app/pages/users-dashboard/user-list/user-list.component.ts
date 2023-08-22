@@ -52,7 +52,6 @@ export class UserListComponent {
   ];
 
   constructor(
-    private usersHttp: UsersHttp,
     private router: Router,
     public logsHistoryService: LogsHistoryService,
     private store: Store,
@@ -86,6 +85,8 @@ export class UserListComponent {
   }
 
   navigateToLogs(id: number) {
+    this.logsHistoryService.isLogHistoryFromUsersPage = true;
+    this.store.dispatch(UsersActions.getUser({ uid: id }));
     this.router.navigate([{ outlets: { logsHistory: ['logs', id] } }]);
   }
 }

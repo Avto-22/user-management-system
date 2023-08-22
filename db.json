@@ -2,7 +2,7 @@
   "users": [
     {
       "id": 15,
-      "name": "კობა კობერიძეა",
+      "name": "კობა კობერიძე",
       "age": "55",
       "salary": "20K",
       "email": "abvtandilkinchikidze@gmail.com",
@@ -22,7 +22,7 @@
     },
     {
       "id": 18,
-      "name": "extra",
+      "name": "extra.ge",
       "age": "3",
       "salary": "100k",
       "email": "extra@gmail.com",

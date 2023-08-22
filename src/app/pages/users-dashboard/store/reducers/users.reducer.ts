@@ -51,13 +51,14 @@ export const reducer = createReducer(
     return {
       ...state,
       loading: false,
+      user: user.id === state.user.id ? user : state.user,
       usersData: {
         ...state.usersData,
         users: UtilReducers.getUpdatedUsers(
           'updateUser',
           state.usersData.users,
           user.id,
-          user
+          user,
         ),
       },
     };

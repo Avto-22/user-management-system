@@ -12,8 +12,19 @@ export class LogsHistoryService {
       userId: NaN,
     });
 
+  private isLogHistoryFromUsersPage_: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
+
+  get isLogHistoryFromUsersPage$(): Observable<boolean> {
+    return this.isLogHistoryFromUsersPage_.asObservable();
+  }
+
   get logHistory$(): Observable<LogsHistoryStatus> {
     return this.logHistory_.asObservable();
+  }
+
+  set isLogHistoryFromUsersPage(status: boolean) {
+    this.isLogHistoryFromUsersPage_.next(status);
   }
 
   set logHistory(status: LogsHistoryStatus) {
