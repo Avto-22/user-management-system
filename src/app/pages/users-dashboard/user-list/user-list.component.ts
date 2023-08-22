@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { Table } from 'primeng/table';
 import { User } from 'src/app/models/users-dashboard.model';
 import { UsersHttp } from 'src/app/services/http-services/users.service';
+import { LogsHistoryService } from 'src/app/services/logs-history.service';
 
 @Component({
   selector: 'app-user-list',
@@ -20,8 +21,6 @@ export class UserListComponent implements OnInit {
   @ViewChild('table') table!: Table;
 
   isLoading: boolean = false;
-
-  activeUserUid: number | undefined = undefined;
 
   users!: User[];
 
@@ -50,6 +49,7 @@ export class UserListComponent implements OnInit {
     private usersHttp: UsersHttp,
     private cdr: ChangeDetectorRef,
     private router: Router,
+    public logsHistoryService: LogsHistoryService
   ) {}
 
   ngOnInit() {}
@@ -82,7 +82,6 @@ export class UserListComponent implements OnInit {
   }
 
   navigateToLogs(id: number) {
-    this.activeUserUid = id;
     this.router.navigate([{ outlets: { logsHistory: ['logs', id] } }]);
   }
 }

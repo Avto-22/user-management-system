@@ -36,7 +36,7 @@ import { MessageService } from 'primeng/api';
     InputMaskModule,
     FileUploadModule,
     DropdownModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [
     MessageService

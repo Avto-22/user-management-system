@@ -1,5 +1,11 @@
-<div class="_x_relative _x_w-full _x_mt-14 _x_flex _x_justify-center">
-  <div class="card _x_w-[70%] _x_h-96">
+<div
+  *ngIf="logsHistoryService.logHistory$ | async as logHistory"
+  class="_x_relative _x_w-full _x_mt-14 _x_flex"
+  [ngClass]="[
+    logHistory.isOpen ? ' _x_justify-end _x_pr-[70px]' : '_x_justify-center'
+  ]"
+>
+  <div class="card _x_w-[80%] _x_h-96">
     <p-table
       #table
       [columns]="cols"
@@ -43,7 +49,7 @@
       <ng-template pTemplate="body" let-rowData let-columns="columns">
         <tr
           (click)="navigateToLogs(rowData['id'])"
-          [isUserActive]="rowData['id'] === activeUserUid"
+          [isUserActive]="rowData['id'] === logHistory.userId"
           class="table_row"
         >
           <td>

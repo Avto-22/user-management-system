@@ -1,7 +1,7 @@
 <ums-popup (close)="closePopup()">
   <form [formGroup]="documentForm" class="card">
     <div class="banner">
-      <img [src]="documentForm.controls['avatar'].value || editUser?.avatar" />
+      <img class="_x_object-cover" [src]="documentForm.controls['avatar'].value || editUser?.avatar" />
       <label
         for="avatar_file"
         class="avatar_upload unset"

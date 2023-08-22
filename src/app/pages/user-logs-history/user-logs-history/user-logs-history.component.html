@@ -1,24 +1,48 @@
-<div *ngIf="user$ | async as user">
-  <div
-    *ngIf="user.hasOwnProperty('id'); else removed"
-    class="_x_fixed _x_top-0 _x_pr-1 _x_left-0 _x_gap-2 _x_bottom-0 _x_w-[270px] _x_bg-white _x_shadow-lg _x_shadow-cyan-500/50 _x_flex _x_flex-col _x_pl-4 _x_pt-4"
-  >
-    <div
-      class="_x_flex _x_w-full _x_justify-center _x_flex-col _x_gap-2 _x_items-center"
-    >
-      <img
-        style="text-align: center"
-        class="_x_w-[60px] _x_h-[60px] _x_rounded-full _x_transition"
-        [src]="user.avatar"
-        alt="avatar"
-      />
+<div
+  *ngIf="user$ | async as user"
+  class="_x_fixed _x_top-0 _x_z-10 _x_pr-1 _x_left-0 _x_gap-7 _x_bottom-0 _x_w-[300px] _x_bg-white _x_shadow-lg _x_shadow-cyan-500/50 _x_flex _x_flex-col _x_pl-4 _x_pt-16"
+>
+  <p-button
+    class="_x_absolute _x_right-2 _x_top-3"
+    [style]="{
+      width: '40px',
+      height: '40px',
+      'background-color': 'white',
+      color: 'black',
+      border: '1px solid black'
+    }"
+    icon="pi pi-times"
+    styleClass="p-button-danger"
+    (onClick)="back()"
+  ></p-button>
+  <div class="_x_flex _x_w-full _x_gap-5 _x_items-center">
+    <img
+      style="text-align: center"
+      class="_x_w-[80px] _x_h-[80px] _x_rounded-full _x_transition _x_object-cover"
+      [src]="user.avatar"
+      alt="avatar"
+    />
+    <div>
+      <p class="_x_font-bold" [pTooltip]="user.name">{{ user.name }}</p>
+      <p class="_x_text-gray-600" [pTooltip]="user.workplace">
+        {{ user.workplace }}
+      </p>
     </div>
-    <h2>name: {{ user.name }}</h2>
-    <p>user create date: {{ user.workplace }}</p>
-    <p>avatar update date: {{ user.age }}</p>
-    <p>email update date: {{ user.phone }}</p>
   </div>
-  <ng-template #removed>
-    <p>this user is already removed</p>
-  </ng-template>
+  <h2 [pTooltip]="user.workplace">
+    <span class="_x_font-bold">test: </span>
+    <span class="_x_text-gray-600">{{ user.name }}</span>
+  </h2>
+  <p [pTooltip]="user.workplace">
+    <span class="_x_font-bold">test: </span>
+    <span class="_x_text-gray-600">{{ user.workplace }}</span>
+  </p>
+  <p [pTooltip]="user.workplace">
+    <span class="_x_font-bold">test: </span>
+    <span class="_x_text-gray-600">{{ user.email }}</span>
+  </p>
+  <p [pTooltip]="user.workplace">
+    <span class="_x_font-bold">test: </span>
+    <span class="_x_text-gray-600">{{ user.phone }}</span>
+  </p>
 </div>
