@@ -1,15 +1,18 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Table } from 'primeng/table';
-import { User } from 'src/app/models/users-dashboard.model';
+import { Observable } from 'rxjs';
+import { UsersResponse } from 'src/app/models/users-dashboard.model';
 import { UsersHttp } from 'src/app/services/http-services/users.service';
 import { LogsHistoryService } from 'src/app/services/logs-history.service';
+import { UsersActions } from '../store/actions';
+import { UsersSelectors } from '../store/selectors';
 
 @Component({
   selector: 'app-user-list',
@@ -17,15 +20,18 @@ import { LogsHistoryService } from 'src/app/services/logs-history.service';
   styleUrls: ['./user-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UserListComponent implements OnInit {
+export class UserListComponent {
   @ViewChild('table') table!: Table;
 
-  isLoading: boolean = false;
+  isLoading$: Observable<boolean> = this.store.select(
+    UsersSelectors.selectLoading,
+  );
 
-  users!: User[];
+  usersData$: Observable<UsersResponse> = this.store.select(
+    UsersSelectors.selectUsersData,
+  );
 
   currentPage: number = 1;
-  totalRecords!: number;
   loading!: boolean;
   globalFilter!: string;
 
@@ -47,24 +53,22 @@ export class UserListComponent implements OnInit {
 
   constructor(
     private usersHttp: UsersHttp,
-    private cdr: ChangeDetectorRef,
     private router: Router,
-    public logsHistoryService: LogsHistoryService
+    public logsHistoryService: LogsHistoryService,
+    private store: Store,
   ) {}
-
-  ngOnInit() {}
 
   loadUsersLazy(event: any = undefined) {
     this.currentPage = event?.first / event?.rows + 1 || this.currentPage || 1;
     this.globalFilter = event?.filters?.global?.value || '';
 
-    this.usersHttp
-      .getUsers(this.currentPage, this.perPage.value, this.globalFilter)
-      .subscribe((res) => {
-        this.users = res.users;
-        this.totalRecords = res.totalRecords;
-        this.cdr.markForCheck();
-      });
+    this.store.dispatch(
+      UsersActions.getUsers({
+        page: this.currentPage,
+        perPage: this.perPage.value,
+        searchQuery: this.globalFilter,
+      }),
+    );
   }
 
   filterGlobal(event: Event) {
@@ -78,7 +82,7 @@ export class UserListComponent implements OnInit {
   }
 
   delete(id: number) {
-    this.usersHttp.deleteUser(id).subscribe((res) => console.log(res));
+    this.store.dispatch(UsersActions.deleteUser({ id }));
   }
 
   navigateToLogs(id: number) {

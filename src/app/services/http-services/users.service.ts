@@ -22,8 +22,7 @@ export class UsersHttp {
   }
 
   checkEmailTaken(email: string, uid: number | undefined): Observable<boolean> {
-    return this.api
-      .get<boolean>(`/check-email/${email}/${uid}`)
+    return this.api.get<boolean>(`/check-email/${email}/${uid}`);
   }
 
   getUser(uid: number): Observable<User> {
@@ -34,11 +33,11 @@ export class UsersHttp {
     return this.api.post<User>('/users', user);
   }
 
-  updateUser(user: User, uid: number): Observable<any> {
-    return this.api.put<any>(`/users/${uid}`, user);
+  updateUser(user: User): Observable<User> {
+    return this.api.put<User>(`/users/${user.id}`, user);
   }
 
-  deleteUser(id: number): Observable<any> {
-    return this.api.delete(`/users/${id}`);
+  deleteUser(id: number): Observable<void> {
+    return this.api.delete<void>(`/users/${id}`);
   }
 }

@@ -20,3 +20,10 @@ export interface UserProfile {
   avatar: string;
   id: number;
 }
+
+export interface UsersStateInterface {
+  usersData: UsersResponse;
+  user: User;
+  loading: boolean;
+  error: string
+}

@@ -9,13 +9,17 @@ import { SpeedDialModule } from 'primeng/speeddial';
 import { TableModule } from 'primeng/table';
 import { SidebarModule } from 'primeng/sidebar';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { SkeletonModule } from 'primeng/skeleton'
+import { SkeletonModule } from 'primeng/skeleton';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputMaskModule } from 'primeng/inputmask';
 import { FileUploadModule } from 'primeng/fileupload';
 import { DropdownModule } from 'primeng/dropdown';
 import { MessageService } from 'primeng/api';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { UsersReducer } from './store/reducers';
+import { UsersEffects } from './store/effects/users.effects';
 
 @NgModule({
   declarations: [
@@ -37,9 +41,9 @@ import { MessageService } from 'primeng/api';
     FileUploadModule,
     DropdownModule,
     FormsModule,
+    StoreModule.forFeature('users', UsersReducer.reducer),
+    EffectsModule.forFeature([UsersEffects]),
   ],
-  providers: [
-    MessageService
-  ]
+  providers: [MessageService],
 })
 export class UsersDashboardModule {}

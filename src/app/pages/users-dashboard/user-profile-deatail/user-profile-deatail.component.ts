@@ -6,10 +6,11 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
+import { Store } from '@ngrx/store';
 import { User } from 'src/app/models/users-dashboard.model';
 import { UsersHttp } from 'src/app/services/http-services/users.service';
 import { CustomValidators } from 'src/app/utility';
+import { UsersActions } from '../store/actions';
 
 @Component({
   selector: 'app-user-profile-deatail',
@@ -30,7 +31,7 @@ export class UserProfileDeatailComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private usersHttp: UsersHttp,
     private route: ActivatedRoute,
-    private messageService: MessageService
+    private store: Store,
   ) {}
 
   ngOnInit(): void {
@@ -56,7 +57,7 @@ export class UserProfileDeatailComponent implements OnInit {
     if (this.action === 'edit') {
       this.fillEditForm();
     }
-    this.cdr.markForCheck();
+    // this.cdr.markForCheck();
   }
 
   onAvatarUpload(event: any) {
@@ -74,6 +75,22 @@ export class UserProfileDeatailComponent implements OnInit {
     }
   }
 
+  onUpdateUser() {
+    if (this.documentForm.invalid) return;
+    this.store.dispatch(
+      UsersActions.updateUser({ user: this.documentForm.value }),
+    );
+    this.closePopup();
+  }
+
+  onAddUser() {
+    if (this.documentForm.invalid) return;
+    this.store.dispatch(
+      UsersActions.createUser({ user: this.documentForm.value }),
+    );
+    this.closePopup();
+  }
+
   initAction() {
     this.action = this.editUser ? 'edit' : 'add';
   }
@@ -84,20 +101,5 @@ export class UserProfileDeatailComponent implements OnInit {
 
   fillEditForm() {
     this.documentForm.setValue({ ...this.editUser });
-  }
-
-  onUpdateUser() {
-    alert('hi')
-    this.usersHttp.updateUser(this.documentForm.value, (this.editUser as User).id).subscribe(res => console.log(res))
-  }
-
-  onAddUser() {
-    this.usersHttp
-      .createUser(this.documentForm.value)
-      .subscribe((res) => console.log(res));
-  }
-
-  showErrorMessage(){
-    this.messageService.add({ severity: 'error', summary: 'Validation Error', detail: 'Email already in use' });
   }
 }

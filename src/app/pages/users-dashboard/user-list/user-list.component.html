@@ -5,17 +5,17 @@
     logHistory.isOpen ? ' _x_justify-end _x_pr-[70px]' : '_x_justify-center'
   ]"
 >
-  <div class="card _x_w-[80%] _x_h-96">
+  <div class="card _x_w-[80%] _x_h-96" *ngIf="usersData$ | async as usersData">
     <p-table
       #table
       [columns]="cols"
-      [value]="users"
+      [value]="usersData.users"
       [tableStyle]="{ height: 'auto' }"
       [responsive]="true"
       [paginator]="true"
       [lazy]="true"
       [rows]="perPage.value"
-      [totalRecords]="totalRecords"
+      [totalRecords]="usersData.totalRecords"
       (onLazyLoad)="loadUsersLazy($event)"
     >
       <ng-template pTemplate="caption">
@@ -59,13 +59,13 @@
             ></app-user-profile>
           </td>
           <td *ngFor="let col of columns">
-            <p *ngIf="!isLoading">{{ rowData[col.field] }}</p>
-            <p-skeleton *ngIf="isLoading"></p-skeleton>
+            <p *ngIf="!(isLoading$ | async)">{{ rowData[col.field] }}</p>
+            <p-skeleton *ngIf="isLoading$ | async"></p-skeleton>
           </td>
 
           <td class="_x_w-12">
-            <p-skeleton *ngIf="isLoading"></p-skeleton>
-            <div *ngIf="!isLoading" class="_x_flex _x_gap-4">
+            <p-skeleton *ngIf="isLoading$ | async"></p-skeleton>
+            <div *ngIf="!(isLoading$ | async)" class="_x_flex _x_gap-4">
               <p-button
                 (click)="$event.stopPropagation()"
                 [routerLink]="'/users/edit-user/' + rowData['id']"
