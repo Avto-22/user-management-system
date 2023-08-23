@@ -6,16 +6,11 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import {
-  Observable,
-  Subject,
-  takeUntil,
-  tap,
-} from 'rxjs';
+import { Observable, Subject, delay, takeUntil, tap } from 'rxjs';
 import { User } from 'src/app/models/users-dashboard.model';
 import { LogsHistoryService } from 'src/app/services/logs-history.service';
-import { UsersSelectors } from '../../users-dashboard/store/selectors';
-import { UsersActions } from '../../users-dashboard/store/actions';
+import { UsersSelectors } from '../../../store/selectors';
+import { UsersActions } from '../../../store/actions';
 
 @Component({
   selector: 'app-user-logs-history',

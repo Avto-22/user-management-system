@@ -20,15 +20,15 @@ export const reducer = createReducer(
   })),
 
   // ----------- GET USER
-  on(UsersActions.getUser, (state) => ({ ...state, loading: true })),
+  on(UsersActions.getUser, (state) => ({ ...state, logsHistoryLoading: true })),
   on(UsersApiActions.getUserSuccessFul, (state, { user }) => ({
     ...state,
-    loading: false,
+    logsHistoryLoading: false,
     user,
   })),
   on(UsersApiActions.getUserFailed, (state, { error }) => ({
     ...state,
-    loading: false,
+    logsHistoryLoading: false,
     error,
   })),
 
@@ -37,7 +37,11 @@ export const reducer = createReducer(
   on(UsersApiActions.createUserSuccessFul, (state, { user }) => ({
     ...state,
     loading: false,
-    usersData: { ...state.usersData, users: [...state.usersData.users, user] },
+    usersData: {
+      ...state.usersData,
+      totalRecords: state.usersData.totalRecords + 1,
+      users: [...state.usersData.users, user],
+    },
   })),
   on(UsersApiActions.createUserFailed, (state, { error }) => ({
     ...state,
@@ -77,6 +81,7 @@ export const reducer = createReducer(
       loading: false,
       usersData: {
         ...state.usersData,
+        totalRecords: state.usersData.totalRecords - 1,
         users: UtilReducers.getUpdatedUsers(
           'deleteUser',
           state.usersData.users,

@@ -5,6 +5,7 @@ import { UserLogsHistoryRoutingModule } from './user-logs-history-routing.module
 import { UserLogsHistoryComponent } from './user-logs-history/user-logs-history.component';
 import { TooltipModule } from 'primeng/tooltip';
 import { ButtonModule } from 'primeng/button';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @NgModule({
   declarations: [UserLogsHistoryComponent],
@@ -12,7 +13,8 @@ import { ButtonModule } from 'primeng/button';
     CommonModule,
     UserLogsHistoryRoutingModule,
     TooltipModule,
-    ButtonModule
+    ButtonModule,
+    SkeletonModule
   ],
 })
 export class UserLogsHistoryModule {}

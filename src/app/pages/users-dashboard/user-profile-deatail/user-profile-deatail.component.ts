@@ -10,7 +10,7 @@ import { Store } from '@ngrx/store';
 import { User } from 'src/app/models/users-dashboard.model';
 import { UsersHttp } from 'src/app/services/http-services/users.service';
 import { CustomValidators } from 'src/app/utility';
-import { UsersActions } from '../store/actions';
+import { UsersActions } from '../../../store/actions';
 
 @Component({
   selector: 'app-user-profile-deatail',

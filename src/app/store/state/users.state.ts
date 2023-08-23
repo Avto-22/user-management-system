@@ -17,5 +17,5 @@ export const UsersState: UsersStateInterface = {
         avatar: '',
     },
     loading: false,
-    error: ''
+    error: '',
 };

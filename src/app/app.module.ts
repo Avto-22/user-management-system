@@ -9,6 +9,9 @@ import { environment } from 'src/environments/environment';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EffectsModule } from '@ngrx/effects';
+import { SharedModule } from './shared/shared.module';
+import { UsersReducer } from './store/reducers';
+import { UsersEffects } from './store/effects/users.effects';
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,8 +20,9 @@ import { EffectsModule } from '@ngrx/effects';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    StoreModule.forRoot([]),
-    EffectsModule.forRoot(),
+    SharedModule,
+    StoreModule.forRoot({'users': UsersReducer.reducer}),
+    EffectsModule.forRoot([UsersEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,

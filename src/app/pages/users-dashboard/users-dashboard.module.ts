@@ -16,10 +16,6 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { FileUploadModule } from 'primeng/fileupload';
 import { DropdownModule } from 'primeng/dropdown';
 import { MessageService } from 'primeng/api';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-import { UsersReducer } from './store/reducers';
-import { UsersEffects } from './store/effects/users.effects';
 
 @NgModule({
   declarations: [
@@ -41,8 +37,6 @@ import { UsersEffects } from './store/effects/users.effects';
     FileUploadModule,
     DropdownModule,
     FormsModule,
-    StoreModule.forFeature('users', UsersReducer.reducer),
-    EffectsModule.forFeature([UsersEffects]),
   ],
   providers: [MessageService],
 })

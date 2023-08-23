@@ -59,13 +59,11 @@
             ></app-user-profile>
           </td>
           <td *ngFor="let col of columns">
-            <p *ngIf="!(isLoading$ | async)">{{ rowData[col.field] }}</p>
-            <p-skeleton *ngIf="isLoading$ | async"></p-skeleton>
+            <p>{{ rowData[col.field] }}</p>
           </td>
 
           <td class="_x_w-12">
-            <p-skeleton *ngIf="isLoading$ | async"></p-skeleton>
-            <div *ngIf="!(isLoading$ | async)" class="_x_flex _x_gap-4">
+            <div class="_x_flex _x_gap-4">
               <p-button
                 (click)="$event.stopPropagation()"
                 [routerLink]="'/users/edit-user/' + rowData['id']"

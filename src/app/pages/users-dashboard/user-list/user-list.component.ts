@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnInit,
   ViewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
@@ -9,10 +8,9 @@ import { Store } from '@ngrx/store';
 import { Table } from 'primeng/table';
 import { Observable } from 'rxjs';
 import { UsersResponse } from 'src/app/models/users-dashboard.model';
-import { UsersHttp } from 'src/app/services/http-services/users.service';
 import { LogsHistoryService } from 'src/app/services/logs-history.service';
-import { UsersActions } from '../store/actions';
-import { UsersSelectors } from '../store/selectors';
+import { UsersActions } from '../../../store/actions';
+import { UsersSelectors } from '../../../store/selectors';
 
 @Component({
   selector: 'app-user-list',

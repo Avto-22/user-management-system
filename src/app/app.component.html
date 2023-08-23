@@ -1,4 +1,3 @@
-<div class="wraper">
-  <router-outlet name="logsHistory"></router-outlet>
-  <router-outlet></router-outlet>
-</div>
+<app-loading *ngIf="loading$ | async"></app-loading>
+<router-outlet name="logsHistory"></router-outlet>
+<router-outlet></router-outlet>

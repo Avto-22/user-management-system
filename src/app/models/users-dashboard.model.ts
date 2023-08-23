@@ -25,5 +25,5 @@ export interface UsersStateInterface {
   usersData: UsersResponse;
   user: User;
   loading: boolean;
-  error: string
+  error: string;
 }
