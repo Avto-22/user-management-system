@@ -23,7 +23,7 @@ export interface UserProfile {
 
 export interface UsersStateInterface {
   usersData: UsersResponse;
-  user: User;
+  user: User | undefined;
   loading: boolean;
   error: string;
 }

@@ -2,6 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import { UsersState } from '../state/users.state';
 import { UsersActions, UsersApiActions } from '../actions';
 import { UtilReducers } from '../utily';
+import { NEVER } from 'rxjs';
 
 export const reducer = createReducer(
   UsersState,
@@ -55,7 +56,7 @@ export const reducer = createReducer(
     return {
       ...state,
       loading: false,
-      user: user.id === state.user.id ? user : state.user,
+      user: user.id === state.user?.id ? user : state.user,
       usersData: {
         ...state.usersData,
         users: UtilReducers.getUpdatedUsers(
@@ -79,6 +80,7 @@ export const reducer = createReducer(
     return {
       ...state,
       loading: false,
+      user: userId === state.user?.id ? undefined : state.user,
       usersData: {
         ...state.usersData,
         totalRecords: state.usersData.totalRecords - 1,

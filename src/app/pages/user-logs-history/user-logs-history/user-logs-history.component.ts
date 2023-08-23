@@ -21,13 +21,13 @@ import { UsersActions } from '../../../store/actions';
 export class UserLogsHistoryComponent implements OnInit, OnDestroy {
   userId = +this.route.snapshot.params['uid'];
 
-  user$: Observable<User> = this.store.select(UsersSelectors.selectUser).pipe(
+  user$: Observable<User | undefined> = this.store.select(UsersSelectors.selectUser).pipe(
     tap((user) => {
       this.logsHistoryService.logHistory = {
         isOpen: true,
-        userId: user.id,
+        userId: user?.id || NaN,
       };
-      if (!user.hasOwnProperty('id')) {
+      if (!user?.hasOwnProperty('id')) {
         this.back();
       }
     }),
