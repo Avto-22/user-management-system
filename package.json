@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "start:backend": "node json-server.js",
-    "ums-serve": "concurrently \"npm run start:frontend\" \"npm run start:backend\""
+    "start:ums": "concurrently \"npm run start:frontend\" \"npm run start:backend\""
   },
   "private": true,
   "dependencies": {

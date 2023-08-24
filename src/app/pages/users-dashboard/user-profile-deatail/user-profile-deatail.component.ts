@@ -4,7 +4,7 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { User } from 'src/app/models/users-dashboard.model';
@@ -19,12 +19,21 @@ import { UsersActions } from '../../../store/actions';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserProfileDeatailComponent implements OnInit {
-  editUser: User | undefined = this.route.snapshot.data['user'];
+  get dynamicFields(): FormArray {
+    return this.documentForm.get('dynamicFields') as FormArray;
+  }
 
-  isAvatarChoosed: boolean = false;
+  set fieldName(event: any) {
+    this.newFieldName = event.target.value;
+  }
 
   action!: 'add' | 'edit';
+  editUser: User | undefined = this.route.snapshot.data['user'];
+  isAvatarChoosed: boolean = false;
   documentForm!: FormGroup;
+  addingField: boolean = false;
+
+  newFieldName: string = '';
 
   constructor(
     private router: Router,
@@ -42,7 +51,11 @@ export class UserProfileDeatailComponent implements OnInit {
   initEditForm() {
     this.documentForm = new FormGroup({
       id: new FormControl(null),
-      name: new FormControl(null, [Validators.required]),
+      name: new FormControl(
+        null,
+        [Validators.required],
+        [CustomValidators.nameChecker(this.usersHttp, this.editUser?.id)],
+      ),
       age: new FormControl(null, [Validators.required]),
       salary: new FormControl(null, [Validators.required]),
       email: new FormControl(
@@ -53,11 +66,68 @@ export class UserProfileDeatailComponent implements OnInit {
       phone: new FormControl(null, [Validators.required]),
       workplace: new FormControl(null, [Validators.required]),
       avatar: new FormControl(null, [Validators.required]),
+      dynamicFields: new FormArray([]),
     });
     if (this.action === 'edit') {
       this.fillEditForm();
     }
-    // this.cdr.markForCheck();
+    this.cdr.detectChanges();
+  }
+
+  initAction() {
+    this.action = this.editUser ? 'edit' : 'add';
+  }
+
+  addNewField() {
+    if (!this.addingField) {
+      this.addingField = true;
+    } else if (this.newFieldName) {
+      this.addField(this.newFieldName);
+      this.addingField = false;
+      this.fieldName = '';
+    }
+  }
+
+  addField(fieldName: string) {
+    if (fieldName) {
+      const newField = new FormGroup({
+        name: new FormControl(fieldName, [Validators.required]),
+        value: new FormControl('', [Validators.required]),
+      });
+
+      (this.documentForm.get('dynamicFields') as FormArray).push(newField);
+      this.addingField = false;
+    }
+    this.cdr.markForCheck();
+  }
+
+  closeField() {
+    this.addingField = false;
+    this.newFieldName = '';
+  }
+
+  removeField(index: number) {
+    this.dynamicFields.removeAt(index);
+  }
+
+  fillEditForm() {
+    this.documentForm.patchValue({ ...this.editUser });
+    this.fillDynamicFields();
+  }
+
+  fillDynamicFields() {
+    if (this.editUser?.dynamicFields) {
+      this.editUser?.dynamicFields.forEach(
+        (field: { name: string; value: string }) => {
+          this.dynamicFields.push(
+            new FormGroup({
+              name: new FormControl(field.name, Validators.required),
+              value: new FormControl(field.value, Validators.required),
+            }),
+          );
+        },
+      );
+    }
   }
 
   onAvatarUpload(event: any) {
@@ -66,7 +136,7 @@ export class UserProfileDeatailComponent implements OnInit {
     if (file && file.type.includes('image')) {
       const reader = new FileReader();
       reader.onload = () => {
-        this.documentForm.controls['avatar'].patchValue(reader.result);
+        this.documentForm.controls['avatar'].setValue(reader.result);
         this.cdr.markForCheck();
       };
       reader.readAsDataURL(file);
@@ -76,7 +146,7 @@ export class UserProfileDeatailComponent implements OnInit {
   }
 
   onUpdateUser() {
-    if (this.documentForm.invalid) return;
+    if (this.documentForm.invalid || this.addingField) return;
     this.store.dispatch(
       UsersActions.updateUser({ user: this.documentForm.value }),
     );
@@ -84,22 +154,14 @@ export class UserProfileDeatailComponent implements OnInit {
   }
 
   onAddUser() {
-    if (this.documentForm.invalid) return;
+    if (this.documentForm.invalid || this.addingField) return;
     this.store.dispatch(
       UsersActions.createUser({ user: this.documentForm.value }),
     );
     this.closePopup();
   }
 
-  initAction() {
-    this.action = this.editUser ? 'edit' : 'add';
-  }
-
   closePopup() {
     this.router.navigate(['users']);
-  }
-
-  fillEditForm() {
-    this.documentForm.setValue({ ...this.editUser });
   }
 }

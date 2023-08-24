@@ -2,7 +2,6 @@ import { createReducer, on } from '@ngrx/store';
 import { UsersState } from '../state/users.state';
 import { UsersActions, UsersApiActions } from '../actions';
 import { UtilReducers } from '../utily';
-import { NEVER } from 'rxjs';
 
 export const reducer = createReducer(
   UsersState,

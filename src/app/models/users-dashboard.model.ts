@@ -8,6 +8,7 @@ export interface User {
   workplace: string;
   avatar: string;
   isActive?: boolean;
+  dynamicFields?: any[];
 }
 
 export interface UsersResponse {

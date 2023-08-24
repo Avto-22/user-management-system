@@ -12,6 +12,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { SharedModule } from './shared/shared.module';
 import { UsersReducer } from './store/reducers';
 import { UsersEffects } from './store/effects/users.effects';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [AppComponent],
@@ -29,7 +30,7 @@ import { UsersEffects } from './store/effects/users.effects';
       autoPause: true,
     }),
   ],
-  providers: [],
+  providers: [MessageService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

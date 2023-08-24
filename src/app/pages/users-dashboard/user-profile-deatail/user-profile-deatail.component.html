@@ -1,7 +1,26 @@
 <ums-popup (close)="closePopup()">
-  <form [formGroup]="documentForm" class="card">
-    <div class="banner">
-      <img class="_x_object-cover" [src]="documentForm.controls['avatar'].value || editUser?.avatar" />
+  <form
+    [formGroup]="documentForm"
+    class="_x_flex _x_flex-col _x_items-center _x_overflow-auto _x_max-h-[100vh] _x_bg-white _x_pt-[50px] _x_pb-[50px] _x_pl-[30px] _x_pr-[30px] _x_rounded-8 _x_gap-[35px] _x_w-[600px] _x_relative"
+  >
+    <p-button
+      class="_x_absolute _x_right-2 _x_top-3"
+      [style]="{
+        width: '40px',
+        height: '40px',
+        'background-color': 'white',
+        color: 'black',
+        border: '1px solid black'
+      }"
+      icon="pi pi-times"
+      styleClass="p-button-danger"
+      (onClick)="closePopup()"
+    ></p-button>
+    <div class="_x_flex _x_justify-center _x_w-full _x_gap-1">
+      <img
+        class="avatar _x_object-cover _x_w-[120px] _x_h-[120px] _x_rounded-[120px] _x_border _x_border-black"
+        [src]="documentForm.controls['avatar'].value || editUser?.avatar"
+      />
       <label
         for="avatar_file"
         class="avatar_upload unset"
@@ -16,105 +35,166 @@
         class="_x_hidden"
       />
     </div>
-    <div class="menu"></div>
-    <h2 class="name">
+    <div class="p-float-label _x_flex _x_flex-col _x_w-full _x_gap-1">
       <input
-        class="unset _x_text-center"
+        class="_x_w-full"
+        id="name"
         type="text"
+        size="30"
+        pInputText
         formControlName="name"
-        placeholder="name"
-        [ngClass]="{'invalid_placeholder': this.documentForm.get('name')?.invalid}"
+        [pTooltip]="
+          documentForm.get('name')?.errors?.['isNameAlreadyInUse']
+            ? 'name is already in use'
+            : ''
+        "
       />
-    </h2>
-    <div class="title">
-      <input
-        class="unset _x_text-center"
-        type="text"
-        formControlName="workplace"
-        placeholder="workplace"
-        [ngClass]="{'invalid_placeholder': this.documentForm.get('workplace')?.invalid}"
-      />
+      <label for="name">Username</label>
     </div>
-    <div class="actions">
-      <div class="follow-info">
-        <h2 class="width_full">
-          <a>
-            <input
-              class="unset _x_text-center"
-              type="text"
-              formControlName="email"
-              placeholder="email"
-              tooltipPosition="right"
-              [pTooltip]="
-              this.documentForm.get('email')?.errors?.['isEmailAlreadyInUse']
-                  ? 'Email is already in use'
-                  : ''
-              "
-            />
-            <small [ngClass]="{'invalid_color': this.documentForm.get('email')?.invalid}">E-Mail</small></a
+    <div class="p-float-label _x_flex _x_flex-col _x_w-full _x_gap-1">
+      <input
+        type="text"
+        class="_x_w-full"
+        id="email"
+        size="30"
+        pInputText
+        formControlName="email"
+        [pTooltip]="
+          documentForm.get('email')?.errors?.['isEmailAlreadyInUse']
+            ? 'email is already in use'
+            : ''
+        "
+      />
+      <label for="email">email</label>
+    </div>
+    <div class="p-float-label _x_flex _x_flex-col _x_w-full _x_gap-1">
+      <input
+        class="_x_w-full"
+        id="workplace"
+        type="text"
+        size="30"
+        pInputText
+        formControlName="workplace"
+      />
+      <label for="workplace">workplace</label>
+    </div>
+    <div class="p-float-label _x_flex _x_flex-col _x_w-full _x_gap-1">
+      <input
+        class="_x_w-full"
+        id="salary"
+        type="text"
+        size="30"
+        pInputText
+        formControlName="salary"
+      />
+      <label for="salary">salary</label>
+    </div>
+    <div
+      class="p-float-label _x_relative _x_flex _x_flex-col _x_w-full _x_gap-1"
+    >
+      <input
+        class="_x_w-full"
+        type="number"
+        formControlName="age"
+        [min]="1"
+        id="age"
+        pInputText
+      />
+      <label for="age">age</label>
+    </div>
+
+    <div
+      class="p-float-label _x_relative _x_flex _x_flex-col _x_w-full _x_gap-1"
+    >
+      <p-inputMask
+        [style]="{ width: '100%' }"
+        type="text"
+        name="phone"
+        formControlName="phone"
+        mask="999-99-99-99"
+      ></p-inputMask>
+      <label for="phone">phone</label>
+    </div>
+
+    <div
+      *ngIf="dynamicFields.controls.length"
+      formArrayName="dynamicFields"
+      class="_x_relative _x_w-full _x_flex _x_flex-col _x_gap-[35px]"
+    >
+      <div *ngFor="let fieldGroup of dynamicFields.controls; let i = index">
+        <div class="p-float-label" [formGroupName]="i">
+          <input
+            class="_x_w-full"
+            type="text"
+            formControlName="value"
+            [id]="i"
+            pInputText
+          />
+          <label [for]="i">{{ fieldGroup.value.name }}</label>
+          <span
+            class="_x_absolute _x_cursor-pointer _x_font"
+            style="font-size: 30px; top: -20px; right: -5px"
+            (click)="removeField(i)"
           >
-        </h2>
+            x
+          </span>
+        </div>
       </div>
-      <div class="follow-info">
-        <h2>
-          <a>
-            <input
-              class="unset _x_text-center"
-              type="text"
-              formControlName="age"
-              placeholder="age"
-            />
-            <small [ngClass]="{'invalid_color': this.documentForm.get('age')?.invalid}">Years Old</small></a
-          >
-        </h2>
-        <h2>
-          <a
-            ><input
-              class="unset _x_text-center"
-              type="text"
-              formControlName="salary"
-              placeholder="salary"
-            /><small [ngClass]="{'invalid_color': this.documentForm.get('salary')?.invalid}">Salary</small></a
-          >
-        </h2>
-      </div>
-      <div class="follow-info">
-        <h2 class="width_full">
-          <a>
-            <p-inputMask
-              [style]="{ all: 'unset' }"
-              class="_x_text-center"
-              type="text"
-              formControlName="phone"
-              mask="999-99-99-99"
-              placeholder="999-99-99-99"
-            ></p-inputMask
-            ><small [ngClass]="{'invalid_color': this.documentForm.get('phone')?.invalid}">Phone Number</small></a
-          >
-        </h2>
-      </div>
-      <div class="follow-btn">
-        <button
-          *ngIf="action === 'edit'"
-          (click)="onUpdateUser()"
-          [ngClass]="{
-            disable_submit_btn:
-              !(editUser | changeFormDetector: documentForm.value) ||
-              documentForm.invalid
-          }"
-        >
-          save changes
-        </button>
-        <button
-          *ngIf="action === 'add'"
-          (click)="onAddUser()"
-          [ngClass]="{
-            disable_submit_btn: documentForm.invalid
-          }"
-        >
-          add user
-        </button>
-      </div>
+    </div>
+
+    <div
+      *ngIf="addingField"
+      class="p-float-label _x_relative _x_flex _x_w-full _x_gap-1"
+    >
+      <input
+        (change)="fieldName = $event"
+        type="text"
+        id="fieldName"
+        class="_x_w-full"
+        pInputText
+      />
+      <label for="fieldName">field name</label>
+      <span
+        class="_x_absolute _x_cursor-pointer _x_font"
+        style="font-size: 30px; top: -20px; right: -5px"
+        (click)="closeField()"
+      >
+        x
+      </span>
+    </div>
+
+    <div class="_x_w-full _x_flex _x_justify-between _x_items-center">
+      <p-button
+        [style]="{
+          'background-color': 'green',
+          border: 'none',
+          height: '50px'
+        }"
+        (onClick)="addNewField()"
+        >{{ !addingField ? "create field" : "add field" }}</p-button
+      >
+      <button
+        *ngIf="action === 'edit'"
+        (click)="onUpdateUser()"
+        pButton
+        class="_x_min-h-[50px]"
+        type="submit"
+        label="save changes"
+        [disabled]="
+          !(editUser | changeFormDetector: documentForm.value) ||
+          documentForm.invalid ||
+          addingField
+        "
+      ></button>
+      <button
+        *ngIf="action === 'add'"
+        (click)="onAddUser()"
+        pButton
+        class="_x_min-h-[50px]"
+        type="submit"
+        label="create user"
+        [disabled]="documentForm.invalid || addingField"
+      ></button>
     </div>
   </form>
 </ums-popup>

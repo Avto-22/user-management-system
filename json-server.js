@@ -38,6 +38,16 @@ server.get("/check-email/:email/:uid", (req, res) => {
   res.json(isEmailTaken);
 });
 
+server.get("/check-name/:name/:uid", (req, res) => {
+  const name = req.params.name;
+  const uid = +req.params.uid;
+  const users = router.db.get("users").value();
+  const isNameTaken = users
+    .filter((user) => user.id !== uid)
+    .some((user) => user.name === name);
+  res.json(isNameTaken);
+});
+
 server.get("/user/:uid", (req, res) => {
   const uid = +req.params.uid;
   const users = router.db.get("users").value();

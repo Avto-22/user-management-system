@@ -15,7 +15,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputMaskModule } from 'primeng/inputmask';
 import { FileUploadModule } from 'primeng/fileupload';
 import { DropdownModule } from 'primeng/dropdown';
-import { MessageService } from 'primeng/api';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 @NgModule({
   declarations: [
@@ -37,7 +37,8 @@ import { MessageService } from 'primeng/api';
     FileUploadModule,
     DropdownModule,
     FormsModule,
+    InputNumberModule,
   ],
-  providers: [MessageService],
+  providers: [],
 })
 export class UsersDashboardModule {}

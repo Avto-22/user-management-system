@@ -25,6 +25,10 @@ export class UsersHttp {
     return this.api.get<boolean>(`/check-email/${email}/${uid}`);
   }
 
+  checkNameTaken(email: string, uid: number | undefined): Observable<boolean> {
+    return this.api.get<boolean>(`/check-name/${email}/${uid}`);
+  }
+
   getUser(uid: number): Observable<User> {
     return this.api.get<User>(`/user/${uid}`);
   }

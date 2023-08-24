@@ -17,3 +17,16 @@ export function emailChecker(usersHttp: UsersHttp, uid: number | undefined): Asy
     return null;
   };
 }
+
+export function nameChecker(usersHttp: UsersHttp, uid: number | undefined): AsyncValidatorFn {
+  return async (control: AbstractControl): Promise<ValidationErrors | null> => {
+    const email = control.value;
+    const isEmailTaken = await usersHttp.checkNameTaken(email, uid).toPromise()
+
+    if (isEmailTaken) {
+      return { isNameAlreadyInUse: true };
+    }
+
+    return null;
+  };
+}
