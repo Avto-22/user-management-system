@@ -23,10 +23,6 @@ export class UserProfileDeatailComponent implements OnInit {
     return this.documentForm.get('dynamicFields') as FormArray;
   }
 
-  set fieldName(event: any) {
-    this.newFieldName = event.target.value;
-  }
-
   action!: 'add' | 'edit';
   editUser: User | undefined = this.route.snapshot.data['user'];
   isAvatarChoosed: boolean = false;
@@ -84,7 +80,7 @@ export class UserProfileDeatailComponent implements OnInit {
     } else if (this.newFieldName) {
       this.addField(this.newFieldName);
       this.addingField = false;
-      this.fieldName = '';
+      this.newFieldName = '';
     }
   }
 
@@ -99,6 +95,10 @@ export class UserProfileDeatailComponent implements OnInit {
       this.addingField = false;
     }
     this.cdr.markForCheck();
+  }
+
+  setFieldName(event: any) {
+    this.newFieldName = event.target.value;
   }
 
   closeField() {
