@@ -129,6 +129,8 @@
             formControlName="value"
             [id]="i"
             pInputText
+            pAutoFocus
+            [autofocus]="i === (dynamicFields.controls.length - 1) && isNewFieldNameAdded"
           />
           <label [for]="i">{{ fieldGroup.value.name }}</label>
           <span

@@ -30,6 +30,7 @@ export class UserProfileDeatailComponent implements OnInit {
   addingField: boolean = false;
 
   newFieldName: string = '';
+  isNewFieldNameAdded: boolean = false;
 
   constructor(
     private router: Router,
@@ -81,6 +82,7 @@ export class UserProfileDeatailComponent implements OnInit {
       this.addField(this.newFieldName);
       this.addingField = false;
       this.newFieldName = '';
+      this.isNewFieldNameAdded = true;
     }
   }
 

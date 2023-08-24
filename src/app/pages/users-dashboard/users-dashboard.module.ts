@@ -16,6 +16,7 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { FileUploadModule } from 'primeng/fileupload';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { AutoFocusModule } from 'primeng/autofocus';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
     DropdownModule,
     FormsModule,
     InputNumberModule,
+    AutoFocusModule
   ],
   providers: [],
 })
