@@ -17,6 +17,9 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { AutoFocusModule } from 'primeng/autofocus';
+import { UserProfileDetailFacadeService } from './user-profile-deatail/user-profile-detail-facade.service';
+import { ToastModule } from 'primeng/toast'
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -39,8 +42,9 @@ import { AutoFocusModule } from 'primeng/autofocus';
     DropdownModule,
     FormsModule,
     InputNumberModule,
-    AutoFocusModule
+    AutoFocusModule,
+    ToastModule
   ],
-  providers: [],
+  providers: [UserProfileDetailFacadeService, MessageService],
 })
 export class UsersDashboardModule {}

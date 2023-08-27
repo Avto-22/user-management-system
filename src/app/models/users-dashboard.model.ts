@@ -7,8 +7,8 @@ export interface User {
   phone: number;
   workplace: string;
   avatar: string;
-  isActive?: boolean;
-  dynamicFields?: any[];
+  dynamicFields: any[];
+  logChanges: LogChange[];
 }
 
 export interface UsersResponse {
@@ -27,4 +27,22 @@ export interface UsersStateInterface {
   user: User | undefined;
   loading: boolean;
   error: string;
+}
+
+export interface LogChange {
+  changeName: string;
+  changeType: LogChangeType,
+  changeDate: Date;
+}
+
+export enum LogChangeType{
+  added,
+  removed,
+  edited
+}
+
+export enum LogChangeStatus{
+  added = 'დამატება',
+  removed = 'წაშლა',
+  edited = 'ედიტირება'
 }

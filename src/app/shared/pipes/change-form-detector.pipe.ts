@@ -29,7 +29,7 @@ export class ChangeFormDetectorPipe implements PipeTransform {
   }
 
   private compareArray(firstArray: any[], secondArray: any[]): boolean {
-    if (firstArray.length !== secondArray.length) {
+    if (firstArray?.length !== secondArray?.length) {
       return true;
     }
 

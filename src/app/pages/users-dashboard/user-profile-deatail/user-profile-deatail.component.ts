@@ -7,10 +7,17 @@ import {
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { User } from 'src/app/models/users-dashboard.model';
+import {
+  LogChange,
+  LogChangeType,
+  User,
+} from 'src/app/models/users-dashboard.model';
 import { UsersHttp } from 'src/app/services/http-services/users.service';
 import { CustomValidators } from 'src/app/utility';
 import { UsersActions } from '../../../store/actions';
+import { ChangeFormDetectorPipe } from 'src/app/shared/pipes/change-form-detector.pipe';
+import { UserProfileDetailFacadeService } from './user-profile-detail-facade.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-user-profile-deatail',
@@ -21,6 +28,13 @@ import { UsersActions } from '../../../store/actions';
 export class UserProfileDeatailComponent implements OnInit {
   get dynamicFields(): FormArray {
     return this.documentForm.get('dynamicFields') as FormArray;
+  }
+
+  get logChanges(): LogChange[] {
+    return this.userProfileDetailFacade.calculateLogChanges(
+      this.editUser as User,
+      this.documentForm,
+    );
   }
 
   action!: 'add' | 'edit';
@@ -38,6 +52,9 @@ export class UserProfileDeatailComponent implements OnInit {
     private usersHttp: UsersHttp,
     private route: ActivatedRoute,
     private store: Store,
+    private changeFormDetectorPipe: ChangeFormDetectorPipe,
+    private userProfileDetailFacade: UserProfileDetailFacadeService,
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -64,6 +81,7 @@ export class UserProfileDeatailComponent implements OnInit {
       workplace: new FormControl(null, [Validators.required]),
       avatar: new FormControl(null, [Validators.required]),
       dynamicFields: new FormArray([]),
+      logChanges: new FormControl([]),
     });
     if (this.action === 'edit') {
       this.fillEditForm();
@@ -88,6 +106,9 @@ export class UserProfileDeatailComponent implements OnInit {
 
   addField(fieldName: string) {
     if (fieldName) {
+      if(this.documentForm.value.dynamicFields.find((res: any) => res.name === fieldName)){
+        return  this.messageService.add({ severity: 'error', summary: 'Error', detail: 'შეყვანელი ველი უკვე გაქვთ' });
+      }
       const newField = new FormGroup({
         name: new FormControl(fieldName, [Validators.required]),
         value: new FormControl('', [Validators.required]),
@@ -148,9 +169,19 @@ export class UserProfileDeatailComponent implements OnInit {
   }
 
   onUpdateUser() {
-    if (this.documentForm.invalid || this.addingField) return;
+    if (
+      this.documentForm.invalid ||
+      this.addingField ||
+      !this.changeFormDetectorPipe.transform(
+        this.editUser,
+        this.documentForm.value,
+      )
+    )
+      return;
     this.store.dispatch(
-      UsersActions.updateUser({ user: this.documentForm.value }),
+      UsersActions.updateUser({
+        user: { ...this.documentForm.value, logChanges: this.logChanges },
+      }),
     );
     this.closePopup();
   }
@@ -158,7 +189,18 @@ export class UserProfileDeatailComponent implements OnInit {
   onAddUser() {
     if (this.documentForm.invalid || this.addingField) return;
     this.store.dispatch(
-      UsersActions.createUser({ user: this.documentForm.value }),
+      UsersActions.createUser({
+        user: {
+          ...this.documentForm.value,
+          logChanges: [
+            {
+              changeName: 'მომხმარებლის შექმნა',
+              changeType: LogChangeType.added,
+              changeDate: new Date(),
+            },
+          ],
+        },
+      }),
     );
     this.closePopup();
   }
