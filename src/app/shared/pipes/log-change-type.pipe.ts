@@ -16,6 +16,8 @@ export class LogChangeTypePipe implements PipeTransform {
         return LogChangeStatus.removed;
       case LogChangeType.edited:
         return LogChangeStatus.edited;
+      case LogChangeType.created:
+        return LogChangeStatus.created;
       default:
         return '';
     }

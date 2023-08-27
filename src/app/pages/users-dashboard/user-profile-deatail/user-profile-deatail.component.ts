@@ -195,7 +195,7 @@ export class UserProfileDeatailComponent implements OnInit {
           logChanges: [
             {
               changeName: 'მომხმარებლის შექმნა',
-              changeType: LogChangeType.added,
+              changeType: LogChangeType.created,
               changeDate: new Date(),
             },
           ],

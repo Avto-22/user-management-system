@@ -64,7 +64,7 @@ export class UserProfileDetailFacadeService {
     changeType: LogChangeType,
     changeName: string,
     changes: LogChange[],
-  ) {
+  ): LogChange[] {
     changes = changes.filter((change) => change.changeName !== changeName);
 
     return [

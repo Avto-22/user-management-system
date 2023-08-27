@@ -38,11 +38,13 @@ export interface LogChange {
 export enum LogChangeType{
   added,
   removed,
-  edited
+  edited,
+  created
 }
 
 export enum LogChangeStatus{
   added = 'დამატება',
   removed = 'წაშლა',
-  edited = 'ედიტირება'
+  edited = 'ედიტირება',
+  created = 'შექმნა'
 }

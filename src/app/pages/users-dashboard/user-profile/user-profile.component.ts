@@ -4,6 +4,7 @@ import {
   EventEmitter,
   Input,
   Output,
+  ViewEncapsulation,
 } from '@angular/core';
 import { UserProfile } from 'src/app/models/users-dashboard.model';
 import { ScrollActions } from 'src/app/utility';
@@ -12,6 +13,7 @@ import { ScrollActions } from 'src/app/utility';
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserProfileComponent {
