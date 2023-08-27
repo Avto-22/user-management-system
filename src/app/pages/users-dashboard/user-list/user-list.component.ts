@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   ViewChild,
-  ViewEncapsulation,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -34,14 +33,6 @@ export class UserListComponent {
   loading!: boolean;
   globalFilter!: string;
 
-  perPageData = [
-    { name: 'per Page 10', value: 10 },
-    { name: 'per Page 50', value: 50 },
-    { name: 'per Page 100', value: 100 },
-  ];
-
-  perPage = this.perPageData[0];
-
   cols = [
     { field: 'name', header: 'Name' },
     { field: 'email', header: 'Email' },
@@ -63,7 +54,7 @@ export class UserListComponent {
     this.store.dispatch(
       UsersActions.getUsers({
         page: this.currentPage,
-        perPage: this.perPage.value,
+        perPage: 10,
         searchQuery: this.globalFilter,
       }),
     );

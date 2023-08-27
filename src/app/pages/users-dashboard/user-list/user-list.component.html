@@ -14,7 +14,7 @@
       [responsive]="true"
       [paginator]="true"
       [lazy]="true"
-      [rows]="perPage.value"
+      [rows]="10"
       [totalRecords]="usersData.totalRecords"
       (onLazyLoad)="loadUsersLazy($event)"
     >
@@ -79,19 +79,6 @@
                 (onClick)="delete(rowData['id'])"
               ></p-button>
             </div>
-          </td>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="footer" let-columns>
-        <tr>
-          <td colspan="7" style="text-align: center">
-            <p-dropdown
-              [options]="perPageData"
-              (onChange)="changePerPage()"
-              [(ngModel)]="perPage"
-              placeholder="Per page {{ this.perPage }}"
-              optionLabel="name"
-            ></p-dropdown>
           </td>
         </tr>
       </ng-template>
