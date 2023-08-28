@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import {
+  DynamicField,
   LogChange,
   LogChangeType,
   User,
@@ -19,20 +20,20 @@ export class UserProfileDetailFacadeService {
           editUser.dynamicFields.length >
           documentForm.value.dynamicFields.length
         ) {
-          changes = this.getLogChanges(
+          changes = this.getRemovedOrAddedChanges(
             LogChangeType.removed,
-            editUser.dynamicFields[editUser.dynamicFields.length - 1].name,
+            editUser.dynamicFields,
+            documentForm.value['dynamicFields'],
             changes,
           );
         } else if (
           editUser.dynamicFields.length <
           documentForm.value.dynamicFields.length
         ) {
-          changes = this.getLogChanges(
+          changes = this.getRemovedOrAddedChanges(
             LogChangeType.added,
-            documentForm.value.dynamicFields[
-              documentForm.value.dynamicFields.length - 1
-            ].name,
+            editUser.dynamicFields,
+            documentForm.value['dynamicFields'],
             changes,
           );
         } else {
@@ -43,7 +44,7 @@ export class UserProfileDetailFacadeService {
                   Object.values(res).join('') !==
                   Object.values(editUser.dynamicFields[index]).join('')
                 ) {
-                  changes = this.getLogChanges(
+                  changes = this.getEditedCHanges(
                     LogChangeType.edited,
                     documentForm.value.dynamicFields[index].name,
                     changes,
@@ -54,18 +55,18 @@ export class UserProfileDetailFacadeService {
           );
         }
       } else if ((editUser as any)[key] !== documentForm.value[key]) {
-        changes = this.getLogChanges(LogChangeType.edited, key, changes);
+        changes = this.getEditedCHanges(LogChangeType.edited, key, changes);
       }
     });
     return changes;
   }
 
-  getLogChanges(
+  getEditedCHanges(
     changeType: LogChangeType,
     changeName: string,
     changes: LogChange[],
   ): LogChange[] {
-    changes = changes.filter((change) => change.changeName !== changeName);
+    changes = changes?.filter((change) => change.changeName !== changeName);
 
     return [
       {
@@ -73,7 +74,32 @@ export class UserProfileDetailFacadeService {
         changeName,
         changeType,
       },
-      ...changes,
+      ...(changes as Array<any>),
     ];
+  }
+
+  getRemovedOrAddedChanges(
+    changeType: LogChangeType,
+    previousValues: DynamicField[],
+    currentValues: DynamicField[],
+    changes: LogChange[],
+  ): LogChange[] {
+    const changedValues: LogChange[] = (
+      changeType === LogChangeType.removed
+        ? previousValues.filter(
+            (res) => !currentValues.some((value) => value.name === res.name),
+          )
+        : currentValues.filter(
+            (res) => !previousValues.some((value) => value.name === res.name),
+          )
+    ).map((res) => ({
+      changeDate: new Date(),
+      changeType,
+      changeName: res.name,
+    }));
+
+    changes = changes.filter(res => !changedValues.some(value => res.changeName === value.changeName))
+
+    return [...changedValues, ...changes];
   }
 }

@@ -1,6 +1,6 @@
 <div
   *ngIf="logsHistoryService.logHistory$ | async as logHistory"
-  class="_x_relative _x_w-full _x_mt-14 _x_flex"
+  class="_x_relative _x_w-full _x_mt-5 _x_flex"
   [ngClass]="[
     logHistory.isOpen ? ' _x_justify-end _x_pr-[70px]' : '_x_justify-center'
   ]"
@@ -22,16 +22,16 @@
         <div class="_x_flex _x_justify-between _x_items-center">
           <p-button
             routerLink="/users/add-user/"
-            label="add user"
+            [label]="'ADD_USER'  | translate"
             class="_x_text-right"
             icon="pi pi-plus"
           ></p-button>
-          UMS - User Managment System
+          UMS - {{ "UMS" | translate }}
           <input
             type="text"
             pInputText
             size="50"
-            placeholder="Search by Name or Workplace"
+            [placeholder]="'SEARCH_PLACEHOLDER' | translate"
             (input)="filterGlobal($event)"
             style="width: 300px"
           />
@@ -39,9 +39,9 @@
       </ng-template>
       <ng-template pTemplate="header" let-columns>
         <tr>
-          <th>Avatar</th>
+          <th>{{"AVATAR" | translate}}</th>
           <th *ngFor="let col of columns">
-            {{ col.header }}
+            {{ col.header | uppercase | translate }}
           </th>
           <th></th>
         </tr>

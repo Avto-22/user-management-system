@@ -1,6 +1,6 @@
 <div
   *ngIf="user$ | async as user"
-  class="_x_fixed _x_top-0 _x_z-10 _x_pr-1 _x_left-0 _x_gap-7 _x_bottom-0 _x_max-h-[100vh] _x_overflow-auto _x_w-[300px] _x_bg-white _x_shadow-lg _x_shadow-cyan-500/50 _x_flex _x_flex-col _x_pl-4 _x_pt-16"
+  class="_x_fixed _x_top-0 _x_z-10 _x_pr-1 _x_left-0 _x_gap-7 _x_bottom-0 _x_max-h-[100vh] _x_overflow-y-auto _x_overflow-x-hidden _x_w-[300px] _x_bg-white _x_shadow-lg _x_shadow-cyan-500/50 _x_flex _x_flex-col _x_pl-4 _x_pt-16"
 >
   <p-button
     class="_x_absolute _x_right-2 _x_top-3"
@@ -16,14 +16,14 @@
     (onClick)="back()"
   ></p-button>
   <div
-    class="_x_flex _x_w-full _x_gap-5 _x_items-center _x_sticky _x_bg-white"
+    class="_x_flex _x_w-full _x_gap-5 _x_items-center _x_sticky _x_bg-white _x_overflow-x-hidden"
     style="top: -64px"
   >
     <img
       style="text-align: center"
       class="_x_w-[80px] _x_h-[80px] _x_rounded-full _x_transition _x_object-cover"
       [src]="user.avatar"
-      alt="avatar"
+      [alt]="'AVATAR' | translate"
     />
     <div>
       <p class="_x_font-bold" [pTooltip]="user.name">{{ user.name }}</p>
@@ -37,13 +37,18 @@
     *ngFor="let change of user.logChanges"
     [pTooltip]="(change.changeDate | date: 'medium') || ''"
   >
-    <span class="_x_font-bold">{{ change.changeName }}</span>
+    <span class="_x_font-bold">{{
+      change.changeName
+        | uppercase
+        | translate
+        | translateChecker: change.changeName
+    }}</span>
     <span class="_x_text-gray-600 _x_ml-7">
-      <span class="_x_font-bold">ტიპი: </span
-      >{{ change.changeType | logChangeType }}</span
+      <span class="_x_font-bold">{{ "TYPE" | translate }}: </span
+      >{{ change.changeType | logChangeType | translate }}</span
     >
     <span class="_x_text-gray-600 _x_ml-7">
-      <span class="_x_font-bold">თარიღი: </span
+      <span class="_x_font-bold">{{ "DATE" | translate }}: </span
       >{{ change.changeDate | date: "medium" }}</span
     >
   </h2>

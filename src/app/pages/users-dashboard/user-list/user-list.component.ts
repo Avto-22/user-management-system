@@ -37,6 +37,7 @@ export class UserListComponent {
     { field: 'name', header: 'Name' },
     { field: 'email', header: 'Email' },
     { field: 'workplace', header: 'Workplace' },
+    { field: 'salary', header: 'Salary' },
     { field: 'age', header: 'Age' },
     { field: 'phone', header: 'Phone' },
   ];

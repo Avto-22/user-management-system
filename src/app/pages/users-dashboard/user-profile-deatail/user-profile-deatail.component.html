@@ -26,7 +26,7 @@
         class="avatar_upload unset"
         [ngClass]="{ opacity_none: action === 'edit' || isAvatarChoosed }"
       >
-        upload
+        {{ "UPLOAD" | translate }}
       </label>
       <input
         (change)="onAvatarUpload($event)"
@@ -49,7 +49,7 @@
             : ''
         "
       />
-      <label for="name">Username</label>
+      <label for="name">{{ "NAME" | translate }}</label>
     </div>
     <div class="p-float-label _x_flex _x_flex-col _x_w-full _x_gap-1">
       <input
@@ -65,7 +65,7 @@
             : ''
         "
       />
-      <label for="email">email</label>
+      <label for="email">{{ "EMAIL" | translate }}</label>
     </div>
     <div class="p-float-label _x_flex _x_flex-col _x_w-full _x_gap-1">
       <input
@@ -76,7 +76,7 @@
         pInputText
         formControlName="workplace"
       />
-      <label for="workplace">workplace</label>
+      <label for="workplace">{{ "WORKPLACE" | translate }}</label>
     </div>
     <div class="p-float-label _x_flex _x_flex-col _x_w-full _x_gap-1">
       <input
@@ -87,7 +87,7 @@
         pInputText
         formControlName="salary"
       />
-      <label for="salary">salary</label>
+      <label for="salary">{{ "SALARY" | translate }}</label>
     </div>
     <div
       class="p-float-label _x_relative _x_flex _x_flex-col _x_w-full _x_gap-1"
@@ -100,7 +100,7 @@
         id="age"
         pInputText
       />
-      <label for="age">age</label>
+      <label for="age">{{ "AGE" | translate }}</label>
     </div>
 
     <div
@@ -113,7 +113,7 @@
         formControlName="phone"
         mask="999-99-99-99"
       ></p-inputMask>
-      <label for="phone">phone</label>
+      <label for="phone">{{ "PHONE" | translate }}</label>
     </div>
 
     <div
@@ -130,7 +130,9 @@
             [id]="i"
             pInputText
             pAutoFocus
-            [autofocus]="i === (dynamicFields.controls.length - 1) && isNewFieldNameAdded"
+            [autofocus]="
+              i === dynamicFields.controls.length - 1 && isNewFieldNameAdded
+            "
           />
           <label [for]="i">{{ fieldGroup.value.name }}</label>
           <span
@@ -155,7 +157,7 @@
         class="_x_w-full"
         pInputText
       />
-      <label for="fieldName">field name</label>
+      <label for="fieldName">{{ "FIELD_NAME" | translate }}</label>
       <span
         class="_x_absolute _x_cursor-pointer _x_font"
         style="font-size: 30px; top: -20px; right: -5px"
@@ -173,7 +175,7 @@
           height: '50px'
         }"
         (onClick)="addNewField()"
-        >{{ !addingField ? "create field" : "add field" }}</p-button
+        >{{ (!addingField ? "CREATE_FILD" : "ADD_FILD") | translate }}</p-button
       >
       <button
         *ngIf="action === 'edit'"
@@ -181,7 +183,7 @@
         pButton
         class="_x_min-h-[50px]"
         type="submit"
-        label="save changes"
+        [label]="'SAVE_CHANGES' | translate"
         [disabled]="
           !(editUser | changeFormDetector: documentForm.value) ||
           documentForm.invalid ||
@@ -194,7 +196,7 @@
         pButton
         class="_x_min-h-[50px]"
         type="submit"
-        label="create user"
+        [label]="'CREATE_USER' | translate"
         [disabled]="documentForm.invalid || addingField"
       ></button>
     </div>

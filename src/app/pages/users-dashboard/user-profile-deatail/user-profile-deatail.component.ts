@@ -194,7 +194,7 @@ export class UserProfileDeatailComponent implements OnInit {
           ...this.documentForm.value,
           logChanges: [
             {
-              changeName: 'მომხმარებლის შექმნა',
+              changeName: 'CREATE_USER',
               changeType: LogChangeType.created,
               changeDate: new Date(),
             },

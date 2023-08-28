@@ -43,8 +43,13 @@ export enum LogChangeType{
 }
 
 export enum LogChangeStatus{
-  added = 'დამატება',
-  removed = 'წაშლა',
-  edited = 'ედიტირება',
-  created = 'შექმნა'
+  added = 'ADD',
+  removed = 'REMOVE',
+  edited = 'EDIT',
+  created = 'CREATE'
+}
+
+export interface DynamicField{
+  name: string;
+  value: string;
 }
