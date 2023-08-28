@@ -5,20 +5,8 @@ import { UsersDashboardRoutingModule } from './users-dashboard-routing.module';
 import { UserListComponent } from './user-list/user-list.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserProfileDeatailComponent } from './user-profile-deatail/user-profile-deatail.component';
-import { SpeedDialModule } from 'primeng/speeddial';
-import { TableModule } from 'primeng/table';
-import { SidebarModule } from 'primeng/sidebar';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { SkeletonModule } from 'primeng/skeleton';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { InputTextModule } from 'primeng/inputtext';
-import { InputMaskModule } from 'primeng/inputmask';
-import { FileUploadModule } from 'primeng/fileupload';
-import { DropdownModule } from 'primeng/dropdown';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { AutoFocusModule } from 'primeng/autofocus';
 import { UserProfileDetailFacadeService } from './user-profile-deatail/user-profile-detail-facade.service';
-import { ToastModule } from 'primeng/toast'
 import { MessageService } from 'primeng/api';
 
 @NgModule({
@@ -27,24 +15,7 @@ import { MessageService } from 'primeng/api';
     UserProfileComponent,
     UserProfileDeatailComponent,
   ],
-  imports: [
-    CommonModule,
-    UsersDashboardRoutingModule,
-    SharedModule,
-    SpeedDialModule,
-    TableModule,
-    SidebarModule,
-    SkeletonModule,
-    ReactiveFormsModule,
-    InputTextModule,
-    InputMaskModule,
-    FileUploadModule,
-    DropdownModule,
-    FormsModule,
-    InputNumberModule,
-    AutoFocusModule,
-    ToastModule
-  ],
+  imports: [CommonModule, UsersDashboardRoutingModule, SharedModule],
   providers: [UserProfileDetailFacadeService, MessageService],
 })
 export class UsersDashboardModule {}

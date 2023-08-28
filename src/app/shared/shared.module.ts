@@ -8,9 +8,10 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { LogChangeTypePipe } from './pipes/log-change-type.pipe';
 import { HeaderComponent } from './components/header/header.component';
 import { SelectButtonModule } from 'primeng/selectbutton';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslateCheckerPipe } from './pipes/translate-checker.pipe';
+import { PRIMENG_MODULES } from './primeng.module';
 
 @NgModule({
   declarations: [
@@ -34,11 +35,14 @@ import { TranslateCheckerPipe } from './pipes/translate-checker.pipe';
     IsUserActiveDirective,
     UmsPopupComponent,
     HeaderComponent,
-    ChangeFormDetectorPipe,
     LoadingComponent,
+    ChangeFormDetectorPipe,
+    TranslateCheckerPipe,
     LogChangeTypePipe,
     TranslateModule,
-    TranslateCheckerPipe
+    FormsModule,
+    ReactiveFormsModule,
+    PRIMENG_MODULES
   ],
 })
 export class SharedModule {}
