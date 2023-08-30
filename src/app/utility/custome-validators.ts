@@ -5,25 +5,22 @@ import {
 } from '@angular/forms';
 import { UsersHttp } from '../services/http-services/users.service';
 
-export function emailChecker(usersHttp: UsersHttp, uid: number | undefined): AsyncValidatorFn {
+export function emailOrNameChecker(
+  usersHttp: UsersHttp,
+  uid: number | undefined,
+  type: 'email' | 'name',
+): AsyncValidatorFn {
   return async (control: AbstractControl): Promise<ValidationErrors | null> => {
-    const email = control.value;
-    const isEmailTaken = await usersHttp.checkEmailTaken(email, uid).toPromise()
+    const controler = control.value;
+    const isControlerTaken =
+      type === 'email'
+        ? await usersHttp.checkEmailTaken(controler, uid).toPromise()
+        : await usersHttp.checkNameTaken(controler, uid).toPromise();
 
-    if (isEmailTaken) {
-      return { isEmailAlreadyInUse: true };
-    }
-
-    return null;
-  };
-}
-
-export function nameChecker(usersHttp: UsersHttp, uid: number | undefined): AsyncValidatorFn {
-  return async (control: AbstractControl): Promise<ValidationErrors | null> => {
-    const email = control.value;
-    const isEmailTaken = await usersHttp.checkNameTaken(email, uid).toPromise()
-
-    if (isEmailTaken) {
+    if (isControlerTaken) {
+      if (type === 'email') {
+        return { isEmailAlreadyInUse: true };
+      }
       return { isNameAlreadyInUse: true };
     }
 

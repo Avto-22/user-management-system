@@ -68,14 +68,14 @@ export class UserProfileDeatailComponent implements OnInit {
       name: new FormControl(
         null,
         [Validators.required],
-        [CustomValidators.nameChecker(this.usersHttp, this.editUser?.id)],
+        [CustomValidators.emailOrNameChecker(this.usersHttp, this.editUser?.id, 'name')],
       ),
       age: new FormControl(null, [Validators.required]),
       salary: new FormControl(null, [Validators.required]),
       email: new FormControl(
         null,
         [Validators.required],
-        [CustomValidators.emailChecker(this.usersHttp, this.editUser?.id)],
+        [CustomValidators.emailOrNameChecker(this.usersHttp, this.editUser?.id, 'email')],
       ),
       phone: new FormControl(null, [Validators.required]),
       workplace: new FormControl(null, [Validators.required]),
