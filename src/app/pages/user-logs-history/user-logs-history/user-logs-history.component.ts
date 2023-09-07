@@ -21,17 +21,7 @@ import { UsersActions } from '../../../store/actions';
 export class UserLogsHistoryComponent implements OnInit, OnDestroy {
   userId = +this.route.snapshot.params['uid'];
 
-  user$: Observable<User | undefined> = this.store.select(UsersSelectors.selectUser).pipe(
-    tap((user) => {
-      this.logsHistoryService.logHistory = {
-        isOpen: true,
-        userId: user?.id || NaN,
-      };
-      if (!user?.hasOwnProperty('id')) {
-        this.back();
-      }
-    }),
-  );
+  user$!: Observable<User | undefined>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -44,6 +34,7 @@ export class UserLogsHistoryComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initUser();
+    this.getUser();
   }
 
   ngOnDestroy(): void {
@@ -53,6 +44,20 @@ export class UserLogsHistoryComponent implements OnInit, OnDestroy {
   }
 
   initUser() {
+    this.user$ = this.store.select(UsersSelectors.selectUser).pipe(
+      tap((user) => {
+        this.logsHistoryService.logHistory = {
+          isOpen: true,
+          userId: user?.id || NaN,
+        };
+        if (!user?.hasOwnProperty('id')) {
+          this.back();
+        }
+      }),
+    );
+  }
+
+  getUser() {
     this.logsHistoryService.isLogHistoryFromUsersPage$
       .pipe(takeUntil(this.destroy$))
       .subscribe((status) => {
