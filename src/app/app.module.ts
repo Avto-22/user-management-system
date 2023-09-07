@@ -15,6 +15,7 @@ import { UsersEffects } from './store/effects/users.effects';
 import { MessageService } from 'primeng/api';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { LayoutModule } from './layout/layout.module';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -27,7 +28,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    SharedModule,
+    LayoutModule,
     StoreModule.forRoot({ users: UsersReducer.reducer }),
     EffectsModule.forRoot([UsersEffects]),
     StoreDevtoolsModule.instrument({

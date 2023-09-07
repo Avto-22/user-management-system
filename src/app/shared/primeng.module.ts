@@ -12,6 +12,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { AutoFocusModule } from 'primeng/autofocus';
 import { ToastModule } from 'primeng/toast'
+import { SelectButtonModule } from "primeng/selectbutton";
 
 export const PRIMENG_MODULES: any[] = [
     TooltipModule,
@@ -28,5 +29,6 @@ export const PRIMENG_MODULES: any[] = [
     FormsModule,
     InputNumberModule,
     AutoFocusModule,
-    ToastModule
+    ToastModule,
+    SelectButtonModule,
 ]
